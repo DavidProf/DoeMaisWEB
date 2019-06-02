@@ -1,0 +1,113 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="DoeMaster.master.cs" Inherits="DoeMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>DoeMais</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logomenor.png">
+    <link href="css/Style.css" rel="stylesheet" />
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery.mask.min.js"></script>
+    <script src="js/masterpage.js"></script>
+    <script src="js/campos_cadastro_validacao.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <!--Menus-->
+        <div class="menuprimario">
+            <nav id="menu1">
+                <img class="btnlogin" src="img/login.png" onclick="mudaestado()">
+                <a href="index.aspx"><img class="logo" src="img/logo.png"></a>
+                <div id="lblLogado">
+                    <asp:Label ID="doadorLogado" runat="server" Text=""></asp:Label>
+                </div>
+                <a href="#">
+                    <img class="social" src="img/insta.png"></a>
+                <a href="#">
+                    <img class="social" src="img/twitter.png"></a>
+                <a href="#">
+                    <img class="social" src="img/face.png"></a>
+            </nav>
+            <nav id="btnmenu" onclick="menu()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </nav>
+        </div>
+
+        <div class="menusecundario" onclick="menusecundario">
+            <section id="slide">
+                <nav class="menu2">
+                    <ul>
+                        <li><a href="index.aspx">INÍCIO</a></li>
+                        <li><a href="receptora.aspx">RECEPTORAS</a></li>
+                        <li><a href="sobre.aspx">SOBRE NÓS</a></li>
+                        <li><a href="contato.aspx">CONTATO</a></li>
+                        <li><a href="api">API</a></li>
+                    </ul>
+                </nav>
+            </section>
+        </div>
+
+        <div class="sumirmenu" id="sumirslide2" onclick="sumirslide()"></div>
+
+        <nav id="cadastrar">
+            <!--Painel Deslogado--->
+            <asp:Panel ID="panDeslogado" runat="server" Visible="True">
+                <ul>
+                    <li><a href="cadastrodoador.aspx">Cadastro Doador</a></li>
+                    <li><a href="cadastroreceptora.aspx">Cadastro Receptora</a></li>
+                </ul>
+                <br />
+                <hr id="linhacadastrar">
+                <br />
+                <ul>
+                    <li><a href="login.aspx">
+                        <img id="entrar" src="img/entrar.png">
+                        <asp:Label ID="login" runat="server" Text="Label">Minha Conta</asp:Label></a>
+                    </li>
+                </ul>
+                <br />
+            </asp:Panel>
+            <!--Painel Logado--->
+            <asp:Panel ID="panLogado" class="panLogado" runat="server" Visible="false">
+                <ul>
+                    <li><a href="home.aspx">Home</a></li>
+                    <li><a href="perfil.aspx">Perfil</a></li>
+                    <li><a href="doacao.aspx">Doação</a></li>
+                    <li><a href="historico.aspx">Histórico</a></li>
+                    <li><a>
+                        <asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click" ClientIDMode="Static">Sair</asp:LinkButton>
+                    </a></li>
+                </ul>
+            </asp:Panel>
+        </nav>
+
+        <div class="sumirmenu" id="sumirmenu" onclick="sumirmenu()"></div>
+        <!--Conteúdo-->
+
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+
+        <!--Rodapé-->
+
+        <footer>
+            <div class="rodape">
+                <small>
+                    <br>
+                    &copy; Doe Mais LTDA. Todos os Direitos Reservados.
+							<br>
+                    Desenvolvido por EMERSON, JOSÉ, JONATHAS, LILLIAN, DAVID, AMANDA
+							<br>
+                    3º Info Noite
+                </small>
+            </div>
+        </footer>
+    </form>
+</body>
+</html>
