@@ -26,6 +26,9 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Doe_Mais", "Doe_Mais\", "{A
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoeMaisWEBService", "DoeMaisWEBService\DoeMaisWEBService.csproj", "{C48E3871-E4EC-4606-AE65-D45F7D88AF06}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AC2EE794-5F7E-4824-B5FE-549D429EBBA0} = {AC2EE794-5F7E-4824-B5FE-549D429EBBA0}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
