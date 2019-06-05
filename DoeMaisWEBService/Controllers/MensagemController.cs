@@ -8,7 +8,7 @@ using DoeMaisWEBService.Models;
 
 namespace DoeMaisWEBService.Controllers
 {
-    [RoutePrefix("Mensagem")]
+    [RoutePrefix("doador/mensagem")]
     public class MensagemController : ApiController
     {
         [HttpGet]

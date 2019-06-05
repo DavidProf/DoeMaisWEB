@@ -36,10 +36,10 @@
                 <table class="tipo_pessoa" id="tipo_pessoa">
                     <tr>
                         <td>
-                            <a class="btnCnpj" href="cadastropf.aspx">Pessoa Física</a>
+                            <a class="btnCnpj" href="cadastropf.aspx" style="color:black;">Pessoa Física</a>
                         </td>
                         <td>
-                            <a class="btnCnpj" href="cadastropj.aspx">Pessoa Jurídica</a>
+                            <a class="btnCnpj" href="cadastropj.aspx" style="color:black;">Pessoa Jurídica</a>
                         </td>
                     </tr>
                 </table>
