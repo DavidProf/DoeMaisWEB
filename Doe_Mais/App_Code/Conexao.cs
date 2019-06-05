@@ -15,7 +15,7 @@ public class Conexao
     public SqlDataReader dAdapter;
     public SqlDataReader dr;
     //string strConexao = "Server=DESKTOP-BDD1FVS;DataBase=DoeMais;user id=sa;password=123456";//Jonathas
-    string strConexao = "Server=DESKTOP-TF64J7S;DataBase=DoeMais;user id=SA;password=123456";//Emerson
+    string strConexao = "Server=DESKTOP-S8IBU5I\\SQLEXPRESS;DataBase=DoeMais;user id=sa;password=12345";//David
     //string strConexao = "Server=DESKTOP-VN1JO1D;DataBase=DoeMais;user id=SA;password=12345";//David
     //string strConexao = "Server=LAB02T-12\\SQLEXPRESS;DataBase=exe_produtos;trusted_conection=true";//Etec
 
