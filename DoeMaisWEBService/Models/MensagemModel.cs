@@ -9,8 +9,9 @@ namespace DoeMaisWEBService.Models
     {
         private String instituicao;
         private String funcionario;
-        private String doador;
+        private String cod;
         private String data;
+        private String doador;
         private String texto;
         private Boolean lida;
 
@@ -20,5 +21,6 @@ namespace DoeMaisWEBService.Models
         public string Data { get => data; set => data = value; }
         public string Texto { get => texto; set => texto = value; }
         public bool Lida { get => lida; set => lida = value; }
+        public string Cod { get => cod; set => cod = value; }
     }
 }

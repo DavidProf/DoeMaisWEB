@@ -11,10 +11,11 @@ namespace DoeMaisWEBService.Controllers
     [RoutePrefix("doador/mensagem")]
     public class MensagemController : ApiController
     {
+
         [HttpGet]
-        public List<MensagemModel> GetMensagems()
+        public List<MensagemModel> GetMensagems(String email,String senha)
         {
-            return null;
+            return new BD.MensagemBD().GetMensagems(email,senha);
         }
     }
 }

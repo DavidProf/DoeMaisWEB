@@ -158,6 +158,7 @@
     <Compile Include="BD\Conexao.cs" />
     <Compile Include="BD\DoacaoBD.cs" />
     <Compile Include="BD\DoadorBD.cs" />
+    <Compile Include="BD\MensagemBD.cs" />
     <Compile Include="Controllers\DoacaoController.cs" />
     <Compile Include="Controllers\DoadorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

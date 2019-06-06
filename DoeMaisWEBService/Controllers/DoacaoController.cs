@@ -27,16 +27,27 @@ namespace DoeMaisWEBService.Controllers
 
         [Route("doadas/qtd")]
         [HttpGet]
-        public int GetDoacoesDoadasQTD(String email, String senha)
+        public Qtd GetDoacoesDoadasQTD(String email, String senha)
         {
-            return new BD.DoacaoBD().GetDoacoesDoadasQTD(email,senha);
+            Qtd qtd = new Qtd();
+            qtd.Quantidade = new BD.DoacaoBD().GetDoacoesDoadasQTD(email, senha);
+            return qtd;
         }
 
         [Route("doadas/itens/qtd")]
         [HttpGet]
-        public int GetDoacoesDoadasItensQTD(String email, String senha)
+        public Qtd GetDoacoesDoadasItensQTD(String email, String senha)
         {
-            return new BD.DoacaoBD().GetDoacoesDoadasItensQTD(email, senha);
+            Qtd qtd = new Qtd();
+            qtd.Quantidade = new BD.DoacaoBD().GetDoacoesDoadasItensQTD(email, senha);
+            return qtd;
         }
+    }
+
+    public class Qtd
+    {
+        int quantidade = 0;
+
+        public int Quantidade { get => quantidade; set => quantidade = value; }
     }
 }

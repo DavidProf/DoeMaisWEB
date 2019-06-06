@@ -16,14 +16,14 @@ namespace DoeMaisWEBService.Controllers
     {
         [Route("login")]
         [HttpGet]
-        public Boolean GetLogin(String email, String senha)
+        public Login GetLogin(String email, String senha)
         {
             if (senha == null || email == null || email.Trim().Equals("") || senha.Trim().Equals(""))
-                return false;
+                return new Login();
+            Login login = new Login();
+            login.Sucesso = new DoadorBD().login(email, senha);
 
-            Boolean verdade = new DoadorBD().login(email, senha);
-
-            return verdade;
+            return login;
         }
 
         [HttpGet]
@@ -36,5 +36,12 @@ namespace DoeMaisWEBService.Controllers
 
             return new DoadorBD().GetDoador(email,senha);
         }
+    }
+
+    public class Login
+    {
+        Boolean _sucesso = false;
+
+        public bool Sucesso { get => _sucesso; set => _sucesso = value; }
     }
 }
