@@ -18,6 +18,14 @@ namespace DoeMaisWEBService.Controllers
             return new BD.DoacaoBD().GetDoacoesPendentes(email,senha);
         }
 
+        [Route("pendentes/itens")]
+        [HttpGet]
+        public List<ItemModel> GetDoacaoPendenteItens(int cod)
+        {
+            
+            return new BD.DoacaoBD().GetDoacaoPendenteItens(cod);
+        }
+
         [Route("doadas")]
         [HttpGet]
         public List<DoacaoModel> GetDoacoesDoadas(String email, String senha)

@@ -168,6 +168,7 @@
     </Compile>
     <Compile Include="Models\DoacaoModel.cs" />
     <Compile Include="Models\DoadorModel.cs" />
+    <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\MensagemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

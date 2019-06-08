@@ -65,6 +65,57 @@ namespace DoeMaisWEBService.BD
             return doacoesPendentes;
         }
 
+        public List<ItemModel> GetDoacaoPendenteItens(int cod)
+        {
+            Conexao bd = new Conexao();
+            List<ItemModel> itens = new List<ItemModel>();
+
+            try
+            {
+                bd.conectar();
+                #region CommandText
+                bd.cmd.CommandText =
+                " SELECT " +
+                " tblItemPreCadastro.ItemNome, " +
+                " COUNT (*) " +
+                " FROM tblDetalheDoacao " +
+                " LEFT JOIN tblItemDetalhe " +
+                " ON tblDetalheDoacao.fk_IdItemDetalhe = tblItemDetalhe.IdItemDetalhe " +
+                " LEFT JOIN tblItemPreCadastro " +
+                " ON tblItemDetalhe.fk_IdItemPreCadastro = tblItemPreCadastro.IdItemPreCadastro " +
+                " WHERE tblDetalheDoacao.fk_IdDoacao = @codDoacao " +
+                " GROUP BY ItemNome " +
+                "";
+                bd.cmd.Parameters.AddWithValue("@codDoacao", cod);
+                #endregion
+
+                bd.dr = bd.cmd.ExecuteReader();
+
+                if (bd.dr.HasRows)
+                {
+                    while (bd.dr.Read())
+                    {
+                        ItemModel item = new ItemModel();
+                        item.Nome = bd.dr[0].ToString();
+                        item.Qtd = bd.dr[1].ToString();
+                        itens.Add(item);
+
+                    }
+                }
+
+                bd.cmd.Parameters.Clear();
+                bd.fechaConexao();
+            }
+            catch (System.Data.SqlClient.SqlException)
+            {
+                bd.cmd.Parameters.Clear();
+                bd.fechaConexao();
+                itens = null;
+            }
+
+            return itens;
+        }
+
         public List<DoacaoModel> GetDoacoesDoadas(String email, String senha)
         {
             Conexao bd = new Conexao();

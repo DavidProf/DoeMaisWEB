@@ -11,7 +11,7 @@ namespace DoeMaisWEBService.Controllers
     [RoutePrefix("doador/mensagem")]
     public class MensagemController : ApiController
     {
-
+        [Route("lista")]
         [HttpGet]
         public List<MensagemModel> GetMensagems(String email,String senha)
         {
