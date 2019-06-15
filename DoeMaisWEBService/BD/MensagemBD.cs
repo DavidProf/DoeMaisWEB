@@ -56,5 +56,49 @@ namespace DoeMaisWEBService.BD
             return mensagens;
         }
 
+        public Boolean EnviarMensagem(String cnpj, String email, String senha, String texto)
+        {//TESTAR
+            Conexao bd = new Conexao();
+            try
+            {
+                bd.conectar();
+                #region CommandText
+                bd.cmd.CommandText =
+                " UPDATE tblMensagem " +
+                " SET Lida = 1 " +
+                " FROM tblMensagem AS M " +
+                " INNER JOIN tblDoador AS D " +
+                " ON D.IdDoador = M.fk_IdDoador " +
+                " WHERE fk_Cnpj = @fk_Cnpj AND D.Email LIKE @email AND D.Senha LIKE @senha " +
+                "  " +
+                " INSERT INTO [dbo].[tblMensagem] " +
+                " ([Texto] " +
+                " ,[DataDeEnvio] " +
+                " ,[fk_IdFuncionario] " +
+                " ,[fk_IdDoador] " +
+                " ,[fk_Cnpj]) " +
+                " VALUES " +
+                " (@texto " +
+                " ,GETDATE() " +
+                " ,null " +
+                " ,(SELECT IdDoador FROM tblDoador WHERE Email LIKE @email AND Senha LIKE @senha) " +
+                " ,@fk_Cnpj) " +
+                "";
+                bd.cmd.Parameters.AddWithValue("@fk_Cnpj", cnpj);
+                bd.cmd.Parameters.AddWithValue("@email", email);
+                bd.cmd.Parameters.AddWithValue("@senha", senha);
+                #endregion
+
+                bd.cmd.ExecuteNonQuery();
+
+                bd.fechaConexao();
+                return true;
+            }
+            catch (System.Data.SqlClient.SqlException sqlE)
+            {
+                bd.fechaConexao();
+                return false;
+            }
+        }
     }
 }
