@@ -57,7 +57,7 @@ namespace DoeMaisWEBService.BD
         }
 
         public Boolean EnviarMensagem(String cnpj, String email, String senha, String texto)
-        {//TESTAR
+        {
             Conexao bd = new Conexao();
             try
             {
@@ -87,6 +87,7 @@ namespace DoeMaisWEBService.BD
                 bd.cmd.Parameters.AddWithValue("@fk_Cnpj", cnpj);
                 bd.cmd.Parameters.AddWithValue("@email", email);
                 bd.cmd.Parameters.AddWithValue("@senha", senha);
+                bd.cmd.Parameters.AddWithValue("@texto", texto);
                 #endregion
 
                 bd.cmd.ExecuteNonQuery();
@@ -94,7 +95,7 @@ namespace DoeMaisWEBService.BD
                 bd.fechaConexao();
                 return true;
             }
-            catch (System.Data.SqlClient.SqlException sqlE)
+            catch (System.Data.SqlClient.SqlException)
             {
                 bd.fechaConexao();
                 return false;

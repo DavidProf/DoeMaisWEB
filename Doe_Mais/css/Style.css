@@ -220,6 +220,7 @@ a:link {
     clear: both;
     text-align: center;
     margin-top: 40px;
+    z-index: -1000;
     padding-bottom: 20px;
 }
 

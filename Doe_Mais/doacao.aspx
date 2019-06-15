@@ -159,7 +159,7 @@
                                             <asp:Label ID="Nome" runat="server" Text='<%# Eval("ItemNome") %>' />
                                         </td>
                                         <td class="tabelaitens">
-                                            <asp:TextBox ID="Quantidade" CssClass="txtdoar" runat="server" MaxLength="2" ClientIDMode="Static" onkeyup="somenteNumeros(this)"></asp:TextBox>
+                                            <asp:TextBox ID="Quantidade" CssClass="txtdoar" runat="server" MaxLength="4" ClientIDMode="Static" onkeyup="somenteNumeros(this)"></asp:TextBox>
                                         </td>
                                     </tr>
                                 </ItemTemplate>

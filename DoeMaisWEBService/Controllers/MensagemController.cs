@@ -13,9 +13,23 @@ namespace DoeMaisWEBService.Controllers
     {
         [Route("lista")]
         [HttpGet]
-        public List<MensagemModel> GetMensagems(String email,String senha)
+        public List<MensagemModel> GetMensagems(String email, String senha)
         {
-            return new BD.MensagemBD().GetMensagems(email,senha);
+            return new BD.MensagemBD().GetMensagems(email, senha);
+        }
+
+        [Route]
+        [HttpPost]
+        public void EnviarMensagem(String cnpj, String email, String senha, String texto)
+        {
+            new BD.MensagemBD().EnviarMensagem(cnpj, email, senha, texto);
+        }
+
+        [Route]
+        [HttpGet]
+        public void GetMensagens(String cnpj, String email, String senha, String texto)
+        {
+
         }
     }
 }

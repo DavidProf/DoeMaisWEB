@@ -20,7 +20,7 @@ namespace DoeMaisWEBService.Controllers
 
         [Route("pendentes/itens")]
         [HttpGet]
-        public List<ItemModel> GetDoacaoPendenteItens(int cod)
+        public List<ItemModel> GetDoacaoItens(int cod)
         {
             
             return new BD.DoacaoBD().GetDoacaoPendenteItens(cod);

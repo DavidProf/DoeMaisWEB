@@ -232,7 +232,7 @@ public partial class doacao : System.Web.UI.Page
         item.Selected = true;
         this.lstInstituicao.Items.Add(item);
     }
-    
+
     public void Itens()
     {
         Session["instituicao"] = lstInstituicao.SelectedValue;
@@ -353,7 +353,7 @@ public partial class doacao : System.Web.UI.Page
         String data1 = txtdata.Text.Replace("/", "-");
         data1 = data1.Substring(0, 10);
         String retirada = "";
-        
+
         //pegar os horários agendados
         Conexao conexao = new Conexao();
         try
@@ -380,15 +380,15 @@ public partial class doacao : System.Web.UI.Page
             DataSet dt = new DataSet();
             DataSet dt1 = new DataSet();
             String pegarHoras =
-            "SELECT distinct CONVERT(VARCHAR(5),"+retirada+",114) AS HORA FROM tblDoacao LEFT JOIN tblDetalheDoacao " +
+            "SELECT distinct CONVERT(VARCHAR(5)," + retirada + ",114) AS HORA FROM tblDoacao LEFT JOIN tblDetalheDoacao " +
             "ON tblDoacao.IdDoacao = tblDetalheDoacao.fk_IdDoacao " +
             "LEFT JOIN tblItemDetalhe " +
             "ON tblDetalheDoacao.fk_IdItemDetalhe = tblItemDetalhe.IdItemDetalhe " +
             "LEFT JOIN tblInstituicao " +
             "ON tblItemDetalhe.fk_CNPJ = tblInstituicao.CNPJ " +
-            "WHERE CONVERT(CHAR(10),"+retirada+", 105) like '"+data1+"' and tblInstituicao.CNPJ = @instituicao3";
+            "WHERE CONVERT(CHAR(10)," + retirada + ", 105) like '" + data1 + "' and tblInstituicao.CNPJ = @instituicao3";
             conexao.command.Parameters.Clear();
-            
+
             if (Convert.ToInt32(Session["doar2"]) == 1)
             {
                 conexao.command.Parameters.Add("@instituicao3", SqlDbType.VarChar).Value = Session["instituicao2"].ToString();
@@ -568,7 +568,7 @@ public partial class doacao : System.Web.UI.Page
         {
             retira.Text = "Não";
         }
-        data.Text = txtdata.Text.Substring(0, 10); 
+        data.Text = txtdata.Text.Substring(0, 10);
         hora.Text = horaAgenda.Text;
 
 
@@ -630,10 +630,14 @@ public partial class doacao : System.Web.UI.Page
 
     protected void lstDoar_Click(object sender, EventArgs e)
     {
+        //yyyy-MM-ddTHH:mm:00.9843750-03:00 -> "19/06/2019 10:30"
         String nomeProduto = "";
         String CNPJ = Session["instituicao"].ToString();
         int quantidade = 0;
-        String dataAgenda = txtdata.Text.Substring(0, 10) + " " + horaAgenda.SelectedValue;
+        String dataAgenda = txtdata.Text.Substring(6, 4) + "-" +
+                            txtdata.Text.Substring(3, 2) + "-" + 
+                            txtdata.Text.Substring(0, 2) + "T" + 
+                            ("b"+horaAgenda.SelectedValue).Replace("b0","0").Replace("b","0")+ ":00.9843750-03:00";
         String sql = "";
         int codigo = 0;
         int idDoador = Convert.ToInt32(Session["IdDoador"]);
@@ -661,8 +665,8 @@ public partial class doacao : System.Web.UI.Page
             }
             conexao.command.Parameters.Clear();
             conexao.command.Parameters.Add("@iddoador", SqlDbType.Int).Value = idDoador;
-            conexao.command.Parameters.Add("@retirada", SqlDbType.DateTime).Value = dataAgenda;
-            conexao.command.Parameters.Add("@entrega", SqlDbType.DateTime).Value = dataAgenda;
+            conexao.command.Parameters.Add("@retirada", SqlDbType.DateTime).Value = Convert.ToDateTime(dataAgenda);
+            conexao.command.Parameters.Add("@entrega", SqlDbType.DateTime).Value = Convert.ToDateTime(dataAgenda);
             conexao.command.CommandText = sql;
             conexao.command.ExecuteNonQuery();
 
@@ -670,7 +674,7 @@ public partial class doacao : System.Web.UI.Page
         catch (Exception)
         {
             lblErCidade.Text = "Tivemos um erro, tente novamente";
-            return;
+            throw;
         }
 
         foreach (RepeaterItem item in Repeater1.Items)
