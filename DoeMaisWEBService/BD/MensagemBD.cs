@@ -103,6 +103,7 @@ namespace DoeMaisWEBService.BD
 
                 bd.cmd.ExecuteNonQuery();
 
+                bd.cmd.Parameters.Clear();
                 bd.fechaConexao();
                 return true;
             }
@@ -150,6 +151,7 @@ namespace DoeMaisWEBService.BD
 
                 bd.cmd.ExecuteNonQuery();
 
+                bd.cmd.Parameters.Clear();
                 bd.fechaConexao();
                 return true;
             }
@@ -160,5 +162,60 @@ namespace DoeMaisWEBService.BD
             }
         }
 
+        public List<MensagemModel> GetConversa(int idmensagem, String email, String senha)
+        {
+            Conexao bd = new Conexao();
+            try
+            {
+                bd.conectar();
+                #region CommandText
+                bd.cmd.CommandText =
+                "  " +
+                " SELECT " +
+                " DataDeEnvio,  " +
+                " tblDoador.Nome, " +
+                " tblFuncionario.Nome, " +
+                " Texto, " +
+                " Lida " +
+                " FROM tblMensagem " +
+                " LEFT JOIN tblDoador " +
+                " ON tblMensagem.fk_IdDoador = tblDoador.IdDoador " +
+                " LEFT JOIN tblFuncionario " +
+                " ON tblMensagem.fk_IdFuncionario = tblFuncionario.IdFuncionario " +
+                " WHERE tblMensagem.fk_Cnpj LIKE (SELECT fk_Cnpj FROM tblMensagem WHERE IdMensagem = @idmensagem) AND  " +
+                " tblMensagem.fk_IdDoador = (SELECT IdDoador FROM tblDoador WHERE Email LIKE @email AND Senha LIKE @senha) " +
+                "";
+                bd.cmd.Parameters.AddWithValue("@idmensagem", idmensagem);
+                bd.cmd.Parameters.AddWithValue("@email", email);
+                bd.cmd.Parameters.AddWithValue("@senha", senha);
+                #endregion
+
+                bd.dr = bd.cmd.ExecuteReader();
+
+                List<MensagemModel> retorno = new List<MensagemModel>();
+
+                if (bd.dr.HasRows)
+                {
+                    while (bd.dr.Read())
+                    {
+                        MensagemModel mensagem = new MensagemModel();
+                        mensagem.Data = bd.dr[0].ToString();
+                        mensagem.Doador = bd.dr[1].ToString();
+                        mensagem.Funcionario = bd.dr[2].ToString();
+                        mensagem.Texto = bd.dr[3].ToString();
+                        mensagem.Lida = (bd.dr[4].ToString().Equals("True"));
+                        retorno.Add(mensagem);
+                    }
+                }
+                bd.cmd.Parameters.Clear();
+                bd.fechaConexao();
+                return retorno;
+            }
+            catch (System.Data.SqlClient.SqlException)
+            {
+                bd.fechaConexao();
+                return null;
+            }
+        }
     }
 }

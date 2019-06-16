@@ -32,12 +32,11 @@ namespace DoeMaisWEBService.Controllers
             new BD.MensagemBD().EnviarMensagemPorIdMensagem(idmensagem, email, senha, texto);
         }
 
-        [Route]
+        [Route("conversa")]
         [HttpGet]
-        public void GetMensagens(String cnpj, String email, String senha, String texto)
+        public List<MensagemModel> GetMensagens(int idMensagem, String email, String senha)
         {
-
-
+            return new BD.MensagemBD().GetConversa(idMensagem, email, senha);
         }
     }
 }
