@@ -20,15 +20,23 @@ namespace DoeMaisWEBService.Controllers
 
         [Route]
         [HttpPost]
-        public void EnviarMensagem(String cnpj, String email, String senha, String texto)
+        public void EnviarMensagemPorIdDoacao(int iddoacao, String email, String senha, String texto)
         {
-            new BD.MensagemBD().EnviarMensagem(cnpj, email, senha, texto);
+            new BD.MensagemBD().EnviarMensagemPorIdDoacao(iddoacao, email, senha, texto);
+        }
+
+        [Route]
+        [HttpPost]
+        public void EnviarMensagemPorIdMensagem(int idmensagem, String email, String senha, String texto)
+        {
+            new BD.MensagemBD().EnviarMensagemPorIdMensagem(idmensagem, email, senha, texto);
         }
 
         [Route]
         [HttpGet]
         public void GetMensagens(String cnpj, String email, String senha, String texto)
         {
+
 
         }
     }

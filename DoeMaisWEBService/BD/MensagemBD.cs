@@ -56,7 +56,7 @@ namespace DoeMaisWEBService.BD
             return mensagens;
         }
 
-        public Boolean EnviarMensagem(String cnpj, String email, String senha, String texto)
+        public Boolean EnviarMensagemPorIdDoacao(int idDoacao, String email, String senha, String texto)
         {
             Conexao bd = new Conexao();
             try
@@ -69,7 +69,13 @@ namespace DoeMaisWEBService.BD
                 " FROM tblMensagem AS M " +
                 " INNER JOIN tblDoador AS D " +
                 " ON D.IdDoador = M.fk_IdDoador " +
-                " WHERE fk_Cnpj = @fk_Cnpj AND D.Email LIKE @email AND D.Senha LIKE @senha " +
+                " WHERE fk_Cnpj = (SELECT ID.fk_CNPJ FROM tblDoacao AS D INNER JOIN tblDetalheDoacao AS DD " +
+                " ON DD.fk_IdDoacao = D.IdDoacao " +
+                " INNER JOIN tblItemDetalhe AS ID " +
+                " ON ID.IdItemDetalhe = DD.fk_IdItemDetalhe " +
+                " WHERE D.IdDoacao = @iddoacao " +
+                " GROUP BY ID.fk_CNPJ) AND " +
+                " D.Email LIKE @email AND D.Senha LIKE @senha " +
                 "  " +
                 " INSERT INTO [dbo].[tblMensagem] " +
                 " ([Texto] " +
@@ -82,9 +88,14 @@ namespace DoeMaisWEBService.BD
                 " ,GETDATE() " +
                 " ,null " +
                 " ,(SELECT IdDoador FROM tblDoador WHERE Email LIKE @email AND Senha LIKE @senha) " +
-                " ,@fk_Cnpj) " +
+                " ,(SELECT ID.fk_CNPJ FROM tblDoacao AS D INNER JOIN tblDetalheDoacao AS DD " +
+                " ON DD.fk_IdDoacao = D.IdDoacao " +
+                " INNER JOIN tblItemDetalhe AS ID " +
+                " ON ID.IdItemDetalhe = DD.fk_IdItemDetalhe " +
+                " WHERE D.IdDoacao = @iddoacao " +
+                " GROUP BY ID.fk_CNPJ) ) " +
                 "";
-                bd.cmd.Parameters.AddWithValue("@fk_Cnpj", cnpj);
+                bd.cmd.Parameters.AddWithValue("@iddoacao", idDoacao);
                 bd.cmd.Parameters.AddWithValue("@email", email);
                 bd.cmd.Parameters.AddWithValue("@senha", senha);
                 bd.cmd.Parameters.AddWithValue("@texto", texto);
@@ -101,5 +112,53 @@ namespace DoeMaisWEBService.BD
                 return false;
             }
         }
+
+        public Boolean EnviarMensagemPorIdMensagem(int idmensagem, String email, String senha, String texto)
+        {
+            Conexao bd = new Conexao();
+            try
+            {
+                bd.conectar();
+                #region CommandText
+                bd.cmd.CommandText =
+                " UPDATE tblMensagem " +
+                " SET Lida = 1 " +
+                " FROM tblMensagem AS M " +
+                " INNER JOIN tblDoador AS D " +
+                " ON D.IdDoador = M.fk_IdDoador " +
+                " WHERE fk_Cnpj = (SELECT fk_Cnpj FROM tblMensagem WHERE IdMensagem = @idmensagem) AND " +
+                " D.Email LIKE @email AND D.Senha LIKE @senha " +
+                "  " +
+                " INSERT INTO [dbo].[tblMensagem] " +
+                " ([Texto] " +
+                " ,[DataDeEnvio] " +
+                " ,[fk_IdFuncionario] " +
+                " ,[fk_IdDoador] " +
+                " ,[fk_Cnpj]) " +
+                " VALUES " +
+                " (@texto " +
+                " ,GETDATE() " +
+                " ,null " +
+                " ,(SELECT IdDoador FROM tblDoador WHERE Email LIKE @email AND Senha LIKE @senha) " +
+                " ,(SELECT fk_Cnpj FROM tblMensagem WHERE IdMensagem = @idmensagem)) " +
+                "";
+                bd.cmd.Parameters.AddWithValue("@idmensagem", idmensagem);
+                bd.cmd.Parameters.AddWithValue("@email", email);
+                bd.cmd.Parameters.AddWithValue("@senha", senha);
+                bd.cmd.Parameters.AddWithValue("@texto", texto);
+                #endregion
+
+                bd.cmd.ExecuteNonQuery();
+
+                bd.fechaConexao();
+                return true;
+            }
+            catch (System.Data.SqlClient.SqlException)
+            {
+                bd.fechaConexao();
+                return false;
+            }
+        }
+
     }
 }
