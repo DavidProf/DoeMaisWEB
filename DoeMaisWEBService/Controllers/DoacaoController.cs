@@ -15,14 +15,14 @@ namespace DoeMaisWEBService.Controllers
         [HttpGet]
         public List<DoacaoModel> GetDoacoesPendentes(String email, String senha)
         {
-            return new BD.DoacaoBD().GetDoacoesPendentes(email,senha);
+            return new BD.DoacaoBD().GetDoacoesPendentes(email, senha);
         }
 
         [Route("itens")]
         [HttpGet]
         public List<ItemModel> GetDoacaoItens(int cod)
         {
-            
+
             return new BD.DoacaoBD().GetDoacaoPendenteItens(cod);
         }
 
@@ -30,7 +30,7 @@ namespace DoeMaisWEBService.Controllers
         [HttpGet]
         public List<DoacaoModel> GetDoacoesDoadas(String email, String senha)
         {
-            return new BD.DoacaoBD().GetDoacoesDoadas(email,senha);
+            return new BD.DoacaoBD().GetDoacoesDoadas(email, senha);
         }
 
         [Route("doadas/qtd")]
@@ -50,7 +50,22 @@ namespace DoeMaisWEBService.Controllers
             qtd.Quantidade = new BD.DoacaoBD().GetDoacoesDoadasItensQTD(email, senha);
             return qtd;
         }
+
+        [Route("doadas/avaliacao")]
+        [HttpGet]
+        public AvaliacaoModel GetAvaliacao(int iddoacao)
+        {
+            return new BD.DoacaoBD().GetAvaliacao(iddoacao);
+        }
+
+        [Route("doadas/avaliacao")]
+        [HttpPost]
+        public void Avaliar(int atendimento, int agilidade, int confianca, int transparencia, int cuidado, int iddoacao)
+        {
+            new BD.DoacaoBD().Avaliar(atendimento, agilidade, confianca, transparencia, cuidado, iddoacao);
+        }
     }
+
 
     public class Qtd
     {

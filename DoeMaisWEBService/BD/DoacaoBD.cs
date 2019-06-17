@@ -247,7 +247,7 @@ namespace DoeMaisWEBService.BD
                 {
                     while (bd.dr.Read())
                     {
-                        qtd = Convert.ToInt32( bd.dr[0].ToString() );
+                        qtd = Convert.ToInt32(bd.dr[0].ToString());
                     }
                 }
 
@@ -263,5 +263,94 @@ namespace DoeMaisWEBService.BD
             return qtd;
         }
 
+        public AvaliacaoModel GetAvaliacao(int iddoacao)
+        {
+            Conexao bd = new Conexao();
+            try
+            {
+                bd.conectar();
+                bd.cmd.CommandText = "SELECT AtendimentoFuncionario, Agilidade, Confianca, Transparencia, Cuidado FROM tblDepoimento WHERE fk_IdDoacao = @id";
+                bd.cmd.Parameters.AddWithValue("@id", iddoacao);
+
+                bd.dr = bd.cmd.ExecuteReader();
+                AvaliacaoModel model = new AvaliacaoModel();
+                if (bd.dr.HasRows)
+                {
+                    while (bd.dr.Read())
+                    {
+                        model.Atendimento = Convert.ToInt32(bd.dr[0].ToString());
+                        model.Agilidade = Convert.ToInt32(bd.dr[1].ToString());
+                        model.Confianca = Convert.ToInt32(bd.dr[2].ToString());
+                        model.Transparencia = Convert.ToInt32(bd.dr[3].ToString());
+                        model.Cuidado = Convert.ToInt32(bd.dr[4].ToString());
+                    }
+                }
+
+                bd.cmd.Parameters.Clear();
+                bd.fechaConexao();
+                return model;
+            }
+            catch (System.Data.SqlClient.SqlException)
+            {
+                return null;
+            }
+        }
+
+        public Boolean Avaliar(int atendimento, int agilidade, int confianca, int transparencia, int cuidado, int iddoacao)
+        {
+            Conexao bd = new Conexao();
+            try
+            {
+                bd.conectar();
+                #region CommandText
+                bd.cmd.CommandText =
+                " IF EXISTS(SELECT * FROM tblDepoimento WHERE fk_IdDoacao = 11) " +
+                " BEGIN " +
+                " INSERT INTO [dbo].[tblDepoimento] " +
+                " ([AtendimentoFuncionario] " +
+                " ,[Agilidade] " +
+                " ,[Confianca] " +
+                " ,[Transparencia] " +
+                " ,[Cuidado] " +
+                " ,[fk_IdDoacao]) " +
+                " VALUES " +
+                " (@atendimento " +
+                " ,@agilidade " +
+                " ,@confianca " +
+                " ,@transparencia " +
+                " ,@cuidado " +
+                " ,@iddoacao) " +
+                " END " +
+                " ELSE " +
+                " BEGIN " +
+                " UPDATE [dbo].[tblDepoimento] " +
+                " SET [AtendimentoFuncionario] = @atendimento " +
+                " ,[Agilidade] = @agilidade " +
+                " ,[Confianca] = @confianca " +
+                " ,[Transparencia] = @transparencia " +
+                " ,[Cuidado] = @cuidado " +
+                " ,[fk_IdDoacao] = @iddoacao " +
+                " WHERE fk_IdDoacao = @iddoacao " +
+                " END " +
+                "";
+                bd.cmd.Parameters.AddWithValue("@atendimento", atendimento);
+                bd.cmd.Parameters.AddWithValue("@agilidade", agilidade);
+                bd.cmd.Parameters.AddWithValue("@confianca", confianca);
+                bd.cmd.Parameters.AddWithValue("@transparencia", transparencia);
+                bd.cmd.Parameters.AddWithValue("@cuidado", cuidado);
+                bd.cmd.Parameters.AddWithValue("@iddoacao", iddoacao);
+                #endregion
+
+                bd.cmd.ExecuteNonQuery();
+                bd.cmd.Parameters.Clear();
+                bd.fechaConexao();
+                return true;
+            }
+            catch (System.Data.SqlClient.SqlException sqlE)
+            {
+                bd.fechaConexao();
+                return false;
+            }
+        }
     }
 }

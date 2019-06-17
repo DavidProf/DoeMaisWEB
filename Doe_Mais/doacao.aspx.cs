@@ -637,7 +637,7 @@ public partial class doacao : System.Web.UI.Page
         String dataAgenda = txtdata.Text.Substring(6, 4) + "-" +
                             txtdata.Text.Substring(3, 2) + "-" + 
                             txtdata.Text.Substring(0, 2) + "T" + 
-                            ("b"+horaAgenda.SelectedValue).Replace("b0","0").Replace("b","0")+ ":00.9843750-03:00";
+                            (horaAgenda.SelectedValue.Length <= 4 ? "0"+horaAgenda.SelectedValue : horaAgenda.SelectedValue)+ ":00.9843750-03:00";
         String sql = "";
         int codigo = 0;
         int idDoador = Convert.ToInt32(Session["IdDoador"]);

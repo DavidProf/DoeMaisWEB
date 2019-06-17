@@ -76,7 +76,7 @@ public partial class receptora : System.Web.UI.Page
                     gridRecep.DataSource = dt;
                     gridRecep.DataBind();
                 }
-                
+
             }
             catch (Exception)
             {
@@ -85,7 +85,7 @@ public partial class receptora : System.Web.UI.Page
             }
         }
     }
-    
+
     protected void btnBuscar_Click(object sender, EventArgs e)
     {
         String comando = " SELECT " +
@@ -113,7 +113,8 @@ public partial class receptora : System.Web.UI.Page
             parametro = dropLetra.SelectedValue + "%";
             comando = comando + " where NomeFantasia like @parametro and Ativo =1";
             buscar(ref parametro, ref comando);
-        }else
+        }
+        else
         {
             parametro = "";
             comando = "";
@@ -195,11 +196,11 @@ public partial class receptora : System.Web.UI.Page
     {
         ModalPopupExtender1.Show();
         String id = gridRecep.DataKeys[Convert.ToInt32(e.CommandArgument)].Values[0].ToString();
-        
+
         Conexao conexao = new Conexao();
         try
         {
-            
+
             //conectar no banco
             conexao.conectar();
         }
